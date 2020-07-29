@@ -1,32 +1,45 @@
 package org.techtown.listviewtest1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
-import org.techtown.listviewtest1.adapter.ListViewAdapter;
+import org.techtown.listviewtest1.adapter.RecyclerViewAdapter;
 import org.techtown.listviewtest1.adapter.SampleData;
 
 import java.util.ArrayList;
 
-public class ListViewActivity extends AppCompatActivity {
+public class RecyclerViewActivity extends AppCompatActivity {
 
-    ListView listView;
-    ListAdapter adapter;
     ArrayList<SampleData> listSampleData;
+    RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listview);
+        setContentView(R.layout.activity_recyclerview);
 
         initSampleData();
 
-        listView = (ListView) findViewById(R.id.listView);
-        adapter = new ListViewAdapter(getApplicationContext(), listSampleData);
-        listView.setAdapter(adapter);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //수평
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        adapter = new RecyclerViewAdapter(listSampleData);
+        recyclerView.setAdapter(adapter);
+
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
 
     }
 
@@ -53,5 +66,6 @@ public class ListViewActivity extends AppCompatActivity {
         listSampleData.add(new SampleData("18", "name18", "body18"));
         listSampleData.add(new SampleData("19", "name19", "body19"));
         listSampleData.add(new SampleData("20", "name20", "body20"));
+
     }
 }
